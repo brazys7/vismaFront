@@ -16,6 +16,7 @@ class Event {
 }
 
 let storedEvents = [];
+let itemToDelete;
 
 prepareDOM();
 
@@ -68,7 +69,6 @@ function prepareDOM() {
     else {
         document.getElementById("eventsHeader").innerHTML = "No upcoming events";
         document.getElementById("eventsTable").innerHTML = "";
-        document.getElementById("tableMenu").style.display = "none";
     }    
 }
 
@@ -94,7 +94,7 @@ function getEventRow(index, item) {
     row += `>` + item.description + `</p>
                         <p class="eventDeadline"><b>Time left:</b> ` + getTimeLeft(item) + `</p>
                     </div>
-                    <div id="deleteItem" class="inputIcon" onclick="deleteEvent(` + index + `)")></div>          
+                    <div id="deleteItem" class="inputIcon" onclick="toggleDeleteWindow(` + index + `)")></div>          
                 </div>
                 `;
     return row;
@@ -263,8 +263,14 @@ function complateEventByIndex(index) {
     
     saveToLocalStorage();
 }
-function deleteEvent(index){
-    storedEvents.splice(index, 1);
+function deleteEvent(){
+    storedEvents.splice(itemToDelete, 1);
 
     saveToLocalStorage();
+    toggleDeleteWindow(null);
+}
+
+function toggleDeleteWindow(index) {
+    itemToDelete = index;
+    document.getElementById("deleteItemWindow").classList.toggle("active");  
 }
