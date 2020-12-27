@@ -5,8 +5,40 @@
     >
         <title>Visma praktikos užduotis</title>
         <link rel="stylesheet" href="style.css">    
+        
     </head>
     <body>
-        <div id="contentContainer"></div>          
-    </body>
+        <div id="contentBackground">
+            <div id="contentContainer">
+                <h3>My To-Do list</h3>
+                <p id="todayDate"></p>
+                <hr>
+
+                <div id="eventsContainer">
+                    <div id="tableHeader">
+                        <h3>My upcoming events</h3>
+                        <div class="inputIcon" id="tableMenu"></div>
+                    </div>                    
+                </div>
+                
+                <div id="inputContainer">                    
+                    <div id="resetForm" 
+                    class="inputIcon"
+                    onclick="resetForm()"></div>
+                    <span id="closeHover" class="buttonHover">Press to reset form</span>
+                    <input type="text" id="addItemDesc" placeholder="Enter description">
+                    <input type="datetime-local" id="selectDate">    
+                    <div 
+                    id="addDeadline" 
+                    class="inputIcon active"
+                    onclick="showDeadline()">
+                    </div>  
+                    <span id="deadlineHover" class="buttonHover">Press to add a deadline</span> 
+                    <div id="saveItem" class="inputIcon" onclick="saveItem()"></div>          
+                    <span id="saveHover" class="buttonHover">Press to save an item</span>      
+                </div>
+            </div>            
+        </div>     
+        <script src="app.js"></script>             
+    </body>    
 </html>

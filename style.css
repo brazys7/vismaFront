@@ -2,12 +2,144 @@ body {
     background: url(./src/images/1166676.jpg) no-repeat center center fixed;
     background-size: cover;
     margin: 50px 20px 0;
+    overflow: hidden;
 }
-#contentContainer {
+#contentBackground {
     background-color: rgba(255, 255, 255, 0.6);
     margin: auto;
     width: 100%;
     height: 100vh;
     max-width: 1000px;
     border-radius: 20px;
+}
+#contentContainer {
+    padding: 20px;
+    height: 100%;
+    position: relative;
+}
+#contentContainer > h3 {
+    margin: 0px;
+    font-size: 25px;
+    color: rgb(80, 80, 80);
+    font-family: sans-serif;
+}
+#contentContainer > p {
+    margin: 0px;
+    color: rgb(80, 80, 80);
+    font-family: sans-serif;
+}
+
+/* Events */
+#eventsContainer {
+    height: 75%;
+    width: 100%;
+    margin: auto;
+}
+#tableHeader {
+    display: flex;
+    justify-content: space-between;
+}
+#tableHeader > h3 {
+    margin: 0px;
+    width: fit-content;
+    font-size: 20px;
+    color: rgb(80, 80, 80);
+    font-family: sans-serif;
+    line-height: 50px;
+}
+#tableMenu {
+    background-image: url(./src/icons/menu.svg);  
+}
+
+/* Input */
+#inputContainer {
+    width: calc(100% - 40px);
+    display: flex;
+    height: 50px;
+    border-radius: 10px;
+    background-color: rgba(100, 100, 100, 0.548);
+    position: absolute;
+    bottom: 100px;
+}
+.inputIcon {
+    width: 50px;
+    height: 50px;
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    position: relative;    
+}
+.inputIcon:hover {    
+    background-size: 80%;        
+}
+#resetForm {    
+    background-image: url(./src/icons/close.svg);    
+}
+#addDeadline {
+    background-image: url(./src/icons/calendar.svg); 
+    display: none; 
+}
+#saveItem {
+    background-image: url(./src/icons/add.svg);  
+}
+
+#closeHover {    
+    bottom: 105%;
+    left: -6%;   
+}
+#deadlineHover {    
+    bottom: 105%;
+    right: -2%;   
+}
+#saveHover {    
+    bottom: 105%;
+    right: -6%;   
+}
+.buttonHover {
+    visibility: hidden;
+    background-color: #cecece;
+    color: #464646;
+    font-family: monospace;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+}
+
+#resetForm:hover + #closeHover {    
+    visibility: visible!important;       
+}
+#addDeadline:hover + #deadlineHover {    
+    visibility: visible!important;       
+}
+#saveItem:hover + #saveHover {    
+    visibility: visible!important;       
+}
+
+#addItemDesc {
+    height: 100%;
+    width: calc(100% - 150px);
+    border: 0;
+    padding: 0;
+    font-size: 18px;
+    background: transparent;
+    color: black;
+}
+#selectDate {
+    background: transparent;
+    width: 200px;
+    border: 0;
+    color: rgb(80, 80, 80);
+    font-family: sans-serif;
+    display: none;
+    border-left: 1px solid black;
+}
+.whenDateActive {
+    width: calc(100% - 170px)!important;
+}
+.active {
+    display: block!important;
 }
