@@ -5,6 +5,7 @@ class Event {
         this.completedAt = completedAt;        
     }    
 
+    //executed when checkbox value is changed
     completeEvent() {
         if(this.completedAt === null) {
             this.completedAt = new Date();
@@ -15,13 +16,14 @@ class Event {
     }
 }
 
-let storedEvents = [];
-let itemToDelete;
+let storedEvents = []; //for storing events
+let itemToDelete; //to store which event we want to delete(after delete window is shown)
 
 prepareDOM();
 
+//prepares DOM accordingly to stored data
 function prepareDOM() {
-    todayDate();
+    todayDate(); //prints today's date to heading text
 
     if(readFromStorage()) {
         sortEvents();
@@ -31,14 +33,16 @@ function prepareDOM() {
         let addedNotCompleted = false; //for keeping a track if there was an event added that wasn't completed
 
         storedEvents.forEach(item => {
+            //to print array which is marked as completed
             if(item.completedAt !== null) {
-                //when there are only completed tasks in an array
+                //when there are only completed tasks in the array
                 if(!addedNotCompleted && !startedCompleted)
                 {
                     document.getElementById("eventsHeader").innerHTML = "Completed tasks";
                     template += getEventRow(index, item);
                     startedCompleted = true;
                 }
+                //when there is uncompleted tasks and first completed hasn't been printed
                 else if(!startedCompleted) {
                     document.getElementById("eventsHeader").innerHTML = "Upcoming events";
                     template += `
@@ -46,32 +50,32 @@ function prepareDOM() {
                     `;
                     template += getEventRow(index, item);
                     startedCompleted = true;
-                }
+                }                
                 else {
                     template += getEventRow(index, item);
                 }                
                 
             }
-
+            //to print element which is not completed
             else {                
                 document.getElementById("eventsHeader").innerHTML = "Upcoming events";
                 template += getEventRow(index, item);
                 addedNotCompleted = true;
-            }
-
-            
+            }           
 
             index++;
         });
         
         document.getElementById("eventsTable").innerHTML = template;
     }
+    //if there is no events found
     else {
         document.getElementById("eventsHeader").innerHTML = "No upcoming events";
         document.getElementById("eventsTable").innerHTML = "";
     }    
 }
 
+//returns row to display an event
 function getEventRow(index, item) {
     let row = ``;
     row += `
@@ -80,6 +84,7 @@ function getEventRow(index, item) {
                         <input class="toggleDone" type="checkbox" onclick="complateEventByIndex(` + index + `)"`;
 
 
+    //if item has a completion date than checkbox has an checked attribute
     if (item.completedAt !== null) {
         row += `checked`;
     }
@@ -88,6 +93,7 @@ function getEventRow(index, item) {
                     </div>
                     <div class="eventContent">
                         <p class="eventTitle"`;
+    //if item has a completion date than heading text of an event has a line-through attribute
     if (item.completedAt) {
         row += `style="text-decoration: line-through;"`;
     }
@@ -100,10 +106,13 @@ function getEventRow(index, item) {
     return row;
 }
 
+//gets time left till deadline(if event has a deadline)
 function getTimeLeft(event) {
+    //if event is completed
     if(event.completedAt) {
         return "Done";
     }
+    //if event doesn't have a deadline
     else if(!event.deadline) {
         return "No deadline";
     }
@@ -113,6 +122,7 @@ function getTimeLeft(event) {
         
         var difference = (now - new Date(event.deadline)) / 1000;
         
+        //if event's deadline is over
         if(difference >= 0) {
             return "Time is over";
         }
@@ -128,8 +138,8 @@ function getTimeLeft(event) {
         minutes = Math.trunc(Math.abs(difference / (60)));
         
         let result = "";
-        let hoursValue = false;
-        let minutesValue = false;
+        let hoursValue = false; //are we printed hours value to results string
+        let minutesValue = false;//are we printed minutes value to results string
         if(days > 0) {
             result += days + "D";
             hoursValue = true;
@@ -151,6 +161,7 @@ function getTimeLeft(event) {
     }
 }
 
+//reads events from local session storage and returns TRUE, if found anything and FALSE if not
 function readFromStorage() {
     const events = JSON.parse(sessionStorage.getItem("events"));
     storedEvents = [];
@@ -252,17 +263,22 @@ function saveItem() {
         saveToLocalStorage();   
     }     
 }
+
+//saves stored events in JSON format to seesion storage
 function saveToLocalStorage() {
     sessionStorage.setItem("events", JSON.stringify(storedEvents));
 
     prepareDOM();
 }
 
+//executed when event's checkbox value is changed
 function complateEventByIndex(index) {
     storedEvents[index].completeEvent();
     
     saveToLocalStorage();
 }
+
+//deletes selected element from the stored events array
 function deleteEvent(){
     storedEvents.splice(itemToDelete, 1);
 
@@ -270,6 +286,7 @@ function deleteEvent(){
     toggleDeleteWindow(null);
 }
 
+//shows/hides delete window
 function toggleDeleteWindow(index) {
     itemToDelete = index;
     document.getElementById("deleteItemWindow").classList.toggle("active");  
