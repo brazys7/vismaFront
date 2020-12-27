@@ -59,10 +59,10 @@ body {
     width: 100%;
     display: flex;
     position: relative;
-    height: 50px;
     border-radius: 10px;
     background-color: rgba(100, 100, 100, 0.5);
     margin-bottom: 5px;
+    min-height: 50px;
 }
 .event:hover {    
     background-color: rgba(100, 100, 100, 0.65);    
@@ -73,12 +73,13 @@ body {
 }
 .toggleDone {
     width: 20px;
-    height: 50px;
+    height: 100%;
     padding-left: 20px;
     margin: 0;
 }
 .eventContent {
     margin: 5px 5px 5px 10px;
+    width: calc(100% - 75px);
 }
 .eventTitle, .eventDeadline {
     margin: 0;
@@ -88,6 +89,7 @@ body {
     font-size: 20px;
     font-family: sans-serif;
     font-weight: bold;
+    word-break: break-all;
 }
 .eventDeadline {
     font-family: monospace;
@@ -95,6 +97,7 @@ body {
 #deleteItem {
     background-image: url(./src/icons/delete.svg);  
     position: absolute;
+    height: 100%;
     right: 0;
 }
 

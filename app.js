@@ -241,6 +241,9 @@ function saveItem() {
     if(description === "") {
         alert("Please enter desciption")
     }
+    else if(deadline !== "" && new Date(deadline) < new Date()) {        
+        alert("Your entered deadline date is over, please fix it")        
+    }
     else {
        const newEvent = new Event(description, deadline, null);
         storedEvents.push(newEvent);
