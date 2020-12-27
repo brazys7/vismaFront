@@ -50,6 +50,50 @@ body {
 #tableMenu {
     background-image: url(./src/icons/menu.svg);  
 }
+#eventsTable {
+    height: calc(95% - 50px);
+    overflow: hidden scroll;
+}
+
+.event {
+    width: 100%;
+    display: flex;
+    position: relative;
+    height: 50px;
+    border-radius: 10px;
+    background-color: rgba(100, 100, 100, 0.5);
+    margin-bottom: 5px;
+}
+
+.doneEvent {
+    margin-left: 5px;
+}
+.toggleDone {
+    width: 20px;
+    height: 50px;
+    padding-left: 20px;
+    margin: 0;
+}
+.eventContent {
+    margin: 5px 5px 5px 10px;
+}
+.eventTitle, .eventDeadline {
+    margin: 0;
+}
+.eventTitle {
+    color: #484747;
+    font-size: 20px;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+.eventDeadline {
+    font-family: monospace;
+}
+#deleteItem {
+    background-image: url(./src/icons/delete.svg);  
+    position: absolute;
+    right: 0;
+}
 
 /* Input */
 #inputContainer {
@@ -64,14 +108,14 @@ body {
 .inputIcon {
     width: 50px;
     height: 50px;
-    background-size: 60%;
+    background-size: 50%;
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
     position: relative;    
 }
 .inputIcon:hover {    
-    background-size: 80%;        
+    background-size: 70%;        
 }
 #resetForm {    
     background-image: url(./src/icons/close.svg);    
@@ -96,6 +140,7 @@ body {
     bottom: 105%;
     right: -6%;   
 }
+
 .buttonHover {
     visibility: hidden;
     background-color: #cecece;
@@ -109,12 +154,8 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
 }
 
-#resetForm:hover + #closeHover {    
-    visibility: visible!important;       
-}
-#addDeadline:hover + #deadlineHover {    
-    visibility: visible!important;       
-}
+#resetForm:hover + #closeHover, 
+#addDeadline:hover + #deadlineHover, 
 #saveItem:hover + #saveHover {    
     visibility: visible!important;       
 }
