@@ -23,33 +23,43 @@ function prepareDOM() {
     todayDate();
 
     if(readFromStorage()) {
+        sortEvents();
         let template = ``;
         let index = 0;
+        let startedCompleted = false; //for keeping track if we started displaying completed items yet
+        let addedNotCompleted = false; //for keeping a track if there was an event added that wasn't completed
 
         storedEvents.forEach(item => {
-            
-            template += `
-            <div class="event">
-                <div class="doneEvent">
-                    <input class="toggleDone" type="checkbox" onclick="complateEventByIndex(` + index + `)"`; 
-            
             if(item.completedAt !== null) {
-                template += `checked`;
+                //when there are only completed tasks in an array
+                if(!addedNotCompleted && !startedCompleted)
+                {
+                    document.getElementById("eventsHeader").innerHTML = "Completed tasks";
+                    template += getEventRow(index, item);
+                    startedCompleted = true;
+                }
+                else if(!startedCompleted) {
+                    document.getElementById("eventsHeader").innerHTML = "Upcoming events";
+                    template += `
+                    <h3 id="eventsHeader">Completed tasks</h3>
+                    `;
+                    template += getEventRow(index, item);
+                    startedCompleted = true;
+                }
+                else {
+                    template += getEventRow(index, item);
+                }                
+                
             }
 
-            template += `>                                
-                </div>
-                <div class="eventContent">
-                    <p class="eventTitle"`;
-            if(item.completedAt) {
-                template += `style="text-decoration: line-through;"`;
+            else {                
+                document.getElementById("eventsHeader").innerHTML = "Upcoming events";
+                template += getEventRow(index, item);
+                addedNotCompleted = true;
             }
-            template += `>` + item.description + `</p>
-                    <p class="eventDeadline"><b>Time left:</b> ` + getTimeLeft(item) + `</p>
-                </div>
-                <div id="deleteItem" class="inputIcon" onclick="deleteEvent(`+ index + `)")></div>          
-            </div>
-            `;
+
+            
+
             index++;
         });
         
@@ -57,8 +67,37 @@ function prepareDOM() {
     }
     else {
         document.getElementById("eventsHeader").innerHTML = "No upcoming events";
+        document.getElementById("eventsTable").innerHTML = "";
         document.getElementById("tableMenu").style.display = "none";
     }    
+}
+
+function getEventRow(index, item) {
+    let row = ``;
+    row += `
+                <div class="event">
+                    <div class="doneEvent">
+                        <input class="toggleDone" type="checkbox" onclick="complateEventByIndex(` + index + `)"`;
+
+
+    if (item.completedAt !== null) {
+        row += `checked`;
+    }
+
+    row += `>                                
+                    </div>
+                    <div class="eventContent">
+                        <p class="eventTitle"`;
+    if (item.completedAt) {
+        row += `style="text-decoration: line-through;"`;
+    }
+    row += `>` + item.description + `</p>
+                        <p class="eventDeadline"><b>Time left:</b> ` + getTimeLeft(item) + `</p>
+                    </div>
+                    <div id="deleteItem" class="inputIcon" onclick="deleteEvent(` + index + `)")></div>          
+                </div>
+                `;
+    return row;
 }
 
 function getTimeLeft(event) {
@@ -73,6 +112,10 @@ function getTimeLeft(event) {
         const deadline = new Date(event.deadline);
         
         var difference = (now - new Date(event.deadline)) / 1000;
+        
+        if(difference >= 0) {
+            return "Time is over";
+        }
 
         days = Math.trunc(Math.abs(difference / (60 * 60 * 24)));
         if(days > 0) {
@@ -112,14 +155,59 @@ function readFromStorage() {
     const events = JSON.parse(sessionStorage.getItem("events"));
     storedEvents = [];
 
-    if(events) {
+    if(events && events.length > 0) {
         events.forEach(event => {
             const newEvent = new Event(event.description, event.deadline, event.completedAt);
             storedEvents.push(newEvent);
         })        
+        sortEvents();
         return true;
     }
     else return false;
+}
+//sorts events by putting the ones with least time on top, 
+//then the ones without the deadline and then completed events 
+//by when they were completed(latest completed is shown on the top)
+function sortEvents() {
+    sortedArray = [];
+
+    //filtering out events which has a deadline and not completed yet and sorting them by the deadline
+    sortedArray = storedEvents
+    .filter(event => event.deadline !== "" && event.completedAt === null)
+    .sort(function(a, b) {
+        var dateA = a.deadline;
+        var dateB = b.deadline;
+
+        if(dateA > dateB){
+            return 1;
+        }
+        else return -1;
+    });
+
+    //filtering events that don't have a deadline and adding them right after ones with deadlines
+    storedEvents
+    .filter(event => event.deadline === "" && event.completedAt === null)
+    .forEach(event => {
+        sortedArray.push(event);
+    });
+
+    //filtering out events that have been completed and sorting them by the completion date
+    storedEvents
+    .filter(event => event.completedAt !== null)
+    .sort(function(a, b) {
+        var dateA = a.completedAt;
+        var dateB = b.completedAt;
+
+        if(dateA > dateB){
+            return 1;
+        }
+        else return -1;
+    })
+    .forEach(event => {
+        sortedArray.push(event);
+    });  
+
+    storedEvents = sortedArray;
 }
 //prints today date in a selected format to the DOM
 function todayDate() {
@@ -154,16 +242,17 @@ function saveItem() {
         alert("Please enter desciption")
     }
     else {
-       const newEvent = new Event(description, deadline);
+       const newEvent = new Event(description, deadline, null);
         storedEvents.push(newEvent);
 
         resetForm();
         saveToLocalStorage();   
-        prepareDOM();
     }     
 }
 function saveToLocalStorage() {
     sessionStorage.setItem("events", JSON.stringify(storedEvents));
+
+    prepareDOM();
 }
 
 function complateEventByIndex(index) {
@@ -174,6 +263,5 @@ function complateEventByIndex(index) {
 function deleteEvent(index){
     storedEvents.splice(index, 1);
 
-        saveToLocalStorage();
-        prepareDOM();
+    saveToLocalStorage();
 }
