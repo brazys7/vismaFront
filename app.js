@@ -210,9 +210,9 @@ function sortEvents() {
         var dateB = b.completedAt;
 
         if(dateA > dateB){
-            return 1;
+            return -1;
         }
-        else return -1;
+        else return 1;
     })
     .forEach(event => {
         sortedArray.push(event);
@@ -248,9 +248,12 @@ function showDeadline() {
 function saveItem() {
     const description = document.getElementById("addItemDesc").value;
     const deadline = document.getElementById("selectDate").value;  
-
+    
     if(description === "") {
-        alert("Please enter desciption")
+        alert("Please enter description");
+    }
+    else if(description.length >= 160) {
+        alert("Your description is too long, maximum 160 characters allowed");
     }
     else if(deadline !== "" && new Date(deadline) < new Date()) {        
         alert("Your entered deadline date is over, please fix it")        
