@@ -97,7 +97,7 @@ function getEventRow(index, item) {
     if (item.completedAt) {
         row += `style="text-decoration: line-through;"`;
     }
-    row += `>` + item.description + `</p>
+    row += `>` + item.description.toUpperCase() + `</p>
                         <p class="eventDeadline"><b>Time left:</b> ` + getTimeLeft(item) + `</p>
                     </div>
                     <div id="deleteItem" class="inputIcon" onclick="toggleDeleteWindow(` + index + `)")></div>          
@@ -304,7 +304,7 @@ function deleteEvent(){
     toggleDeleteWindow(null);
 }
 
-//shows/hides delete window
+//shows / hides delete window
 function toggleDeleteWindow(index) {
     itemToDelete = index;
     document.getElementById("deleteItemWindow").classList.toggle("active");  
