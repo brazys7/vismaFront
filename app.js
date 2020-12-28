@@ -152,7 +152,7 @@ function getTimeLeft(event) {
             minutesValue = true;
         }
         if(minutes > 0) {
-            if(minutesValue) {
+            if(minutesValue || hoursValue) {
                 result += ", "
             }
             result += minutes + "Min"
