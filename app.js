@@ -230,16 +230,18 @@ function todayDate() {
 //resets input form's values
 function resetForm() {
     document.getElementById("addItemDesc").value = "";
-    document.getElementById("selectDate").value = "";
+    let elements = document.getElementsByClassName("selectDate");
+    elements[0].value = "";
+    elements[1].value = "";
     
-    if(document.getElementById("selectDate").classList.contains('active')){
+    if(document.getElementById("datesContainer").classList.contains('activeDates')){
         showDeadline();
     }
 }
 
 //shows or hides deadline's input
 function showDeadline() {
-    document.getElementById("selectDate").classList.toggle("active");
+    document.getElementById("datesContainer").classList.toggle("activeDates");
     document.getElementById("addDeadline").classList.toggle("active");
     document.getElementById("addItemDesc").classList.toggle("whenDateActive");
 }
@@ -247,8 +249,21 @@ function showDeadline() {
 //parses information from inputs and stores to session storage
 function saveItem() {
     const description = document.getElementById("addItemDesc").value;
-    const deadline = document.getElementById("selectDate").value;  
-    
+    let deadline;
+    let dates = document.getElementsByClassName("selectDate");
+    if(dates[0].value === ""){
+        deadline = "";
+    }
+    else {
+        deadline = dates[0].value;
+        if(dates[1].value === "") {
+            deadline+= "T23:59";
+        }
+        else {
+            deadline += "T" + dates[1].value;
+        }
+    }    
+
     if(description === "") {
         alert("Please enter description");
     }

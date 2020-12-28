@@ -29,7 +29,11 @@
                     onclick="resetForm()"></div>
                     <span id="closeHover" class="buttonHover">Press to reset form</span>
                     <input type="text" id="addItemDesc" placeholder="Enter description">
-                    <input type="datetime-local" id="selectDate">    
+                    <div id="datesContainer">
+                        <input type="date" class="selectDate" style="width: 65%;"> 
+                        <input type="time" class="selectDate" style="width: 35%; border-right: 1px solid black;"> 
+                    </div>
+                    <!-- <input type="datetime-local" id="selectDate">     -->
                     <div 
                     id="addDeadline" 
                     class="inputIcon active"

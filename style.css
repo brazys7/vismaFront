@@ -31,9 +31,10 @@ body {
 
 /* Events */
 #eventsContainer {
-    height: 75%;
+    height: calc(100% - 250px);
     width: 100%;
     margin: auto;
+    overflow-y: auto;
 }
 #tableHeader {
     display: flex;
@@ -50,22 +51,18 @@ body {
 #tableMenu {
     background-image: url(./src/icons/menu.svg);  
 }
-#eventsTable {
-    height: calc(95% - 50px);
-    overflow: hidden scroll;
-}
 
 .event {
     width: 100%;
     display: flex;
     position: relative;
     border-radius: 10px;
-    background-color: rgba(100, 100, 100, 0.5);
+    background-color: rgba(255, 255, 255, 0.65);
     margin-bottom: 5px;
     min-height: 50px;
 }
 .event:hover {    
-    background-color: rgba(100, 100, 100, 0.65);    
+    background-color: rgba(223, 223, 223, 0.85);
 }
 
 .doneEvent {
@@ -175,20 +172,26 @@ body {
     background: transparent;
     color: black;
 }
-#selectDate {
-    background: transparent;
-    width: 200px;
-    border: 0;
-    color: rgb(80, 80, 80);
-    font-family: sans-serif;
+#datesContainer {
+    width: 250px;
     display: none;
+}
+.selectDate {
+    background: transparent;       
+    border: 0;
     border-left: 1px solid black;
+    color: rgb(80, 80, 80);
+    font-family: sans-serif;   
+    height: 100%;
 }
 .whenDateActive {
     width: calc(100% - 170px)!important;
 }
 .active {
     display: block!important;
+}
+.activeDates {
+    display: flex!important;
 }
 /* Delete window */ 
 #deleteItemWindow {
@@ -204,7 +207,7 @@ body {
     width: 100%;
     max-width: 500px;
     max-height: 300px;
-    background: radial-gradient(rgb(0, 121, 235), rgb(1, 93, 179));
+    background: radial-gradient(rgb(154, 205, 253), rgb(133, 196, 255));
     position: relative;
     left: 50%;
     top: 50%;
